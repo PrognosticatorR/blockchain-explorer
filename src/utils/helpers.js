@@ -41,49 +41,48 @@ export const getBlock = (hashStringOrBlockNumber) => {
   });
 };
 
-export const getTransaction = (hash) => {
+export const getTransaction = async (hash) => {
   const provider = getWeb3Provider();
-  return new Promise((resolve, reject) => {
-    provider.getTransaction(hash, (error, result) => {
-      if (error) reject(error);
-      else resolve(result);
-    });
-  });
+  return await provider.getTransaction(hash);
 };
 
-// provider.filter("latest", function (error, result) {
-//   if (!error) {
-//     console.log("Block created ", result);
-//     app.watchs.forEach((w) =>
-//       getBalance(w.address).then(
-//         (r) => (w.balance = web3.fromWei(r, "ether") + " ETH")
-//       )
-//     );
-//     //- filter(result);
-//   }
-// });
-
-export const filter = async (blockHash) => {
+export const filterAccordingToTransaction = async (transactionHashes) => {
   const provider = getWeb3Provider();
+  const promisesMap = transactionHashes.map((txHash) =>
+    provider.getTransaction(txHash)
+  );
+  let res = await Promise.allSettled(promisesMap);
+  let filteredResult = res.filter((txn) => Number(txn.value.value._hex) > 0);
+  return filteredResult;
+};
+// export const filterAccordingToTransaction = async (blockHash) => {
+//   const provider = getWeb3Provider();
+//   let block = await getBlock(blockHash);
+//   let refreshBalanceAddresses = [];
+//   block.transactions.forEach((txHash) => {
+//     getTransaction(txHash).then((tx) => {
+//       let blockNumber = tx.blockNumber;
+//       let gas = tx.gas;
+//       let gasPrice = tx.gasPrice;
+//       let hash = tx.hash;
+//       let value = tx.value;
+//       let to = tx.to || "";
+//       let from = tx.from || "";
+//       //   app.watchs
+//       [].forEach((w) => {
+//         let address = w.address.toLowerCase();
+//         if (address === to.toLowerCase() || address === from.toLowerCase()) {
+//           w.txs.push(tx);
+//         }
+//       });
+//     });
+//   });
+// };
 
-  var block = await getBlock(blockHash);
-  var refreshBalanceAddresses = [];
-  block.transactions.forEach((txHash) => {
-    getTransaction(txHash).then((tx) => {
-      var blockNumber = tx.blockNumber;
-      var gas = tx.gas;
-      var gasPrice = tx.gasPrice;
-      var hash = tx.hash;
-      var value = tx.value;
-      var to = tx.to || "";
-      var from = tx.from || "";
-      //   app.watchs
-      [].forEach((w) => {
-        var address = w.address.toLowerCase();
-        if (address === to.toLowerCase() || address === from.toLowerCase()) {
-          w.txs.push(tx);
-        }
-      });
-    });
-  });
+export const truncateStr = (str, chars) => {
+  return (
+    str.slice(0, Math.ceil(chars / 2)) +
+    "..." +
+    str.slice(str.length - Math.floor(chars / 2))
+  );
 };

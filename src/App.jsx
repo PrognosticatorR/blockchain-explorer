@@ -2,8 +2,9 @@
 import { Header } from "./components/Header";
 import { Home } from "./components/Home";
 import { css } from "@emotion/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Transactions } from "./components/Transactions";
+import { TransactionsDetails } from "./components/TransactionsDetails";
 const wrapper = css`
   text-align: center;
   min-height: 100vh;
@@ -13,14 +14,13 @@ const wrapper = css`
 function App() {
   return (
     <div css={wrapper}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Header />}>
-            <Route path="" element={<Home />} />
-            <Route path="transactions/:id" element={<Transactions />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route path="/" element={<Home />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="transactions/:hash" element={<TransactionsDetails />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

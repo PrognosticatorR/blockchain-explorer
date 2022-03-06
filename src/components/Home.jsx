@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getWeb3Provider } from "../utils/helpers";
 import ETHLogo from "../ethereum.svg";
 import { Table } from "./Table";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
@@ -16,12 +17,10 @@ export const Home = () => {
       setBlocks(blocks);
       setFetchingBlocks(false);
     });
-
     getBlocksStream();
     return () => getBlocksStream();
   }, []);
 
-  console.log("rerendering");
   function getBlocksStream() {
     wsProvider.on("block", async (block) => {
       let newBlock = await wsProvider.getBlock(block);
@@ -32,7 +31,6 @@ export const Home = () => {
     });
   }
 
-  console.log(blocks);
   async function getBlocks() {
     let blockNumbers = [];
     let number = await wsProvider.getBlockNumber();
@@ -60,7 +58,18 @@ export const Home = () => {
       >
         Ethereum Block Explorer
       </p>
-      {!fetchingBlocks ? <Table blocks={blocks} /> : <h3>Loading blocks...</h3>}
+      {!fetchingBlocks ? (
+        <Table blocks={blocks} />
+      ) : (
+        <div
+          css={css`
+            margin-top: 40px;
+          `}
+        >
+          <h3> Fetching latest blocks</h3>
+          <ClipLoader />
+        </div>
+      )}
     </div>
   );
 };
