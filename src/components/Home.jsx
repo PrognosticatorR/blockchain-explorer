@@ -5,10 +5,10 @@ import { getWeb3Provider } from "../utils/helpers";
 import ETHLogo from "../ethereum.svg";
 import { Table } from "./Table";
 
-export const Home = (props) => {
+export const Home = () => {
   const [blocks, setBlocks] = useState([]);
   const [fetchingBlocks, setFetchingBlocks] = useState(false);
-  const provider = getWeb3Provider();
+  const wsProvider = getWeb3Provider("websoket");
 
   useEffect(() => {
     setFetchingBlocks(true);
@@ -16,17 +16,32 @@ export const Home = (props) => {
       setBlocks(blocks);
       setFetchingBlocks(false);
     });
+
+    getBlocksStream();
+    return () => getBlocksStream();
   }, []);
 
+  console.log("rerendering");
+  function getBlocksStream() {
+    wsProvider.on("block", async (block) => {
+      let newBlock = await wsProvider.getBlock(block);
+      setBlocks((blocks) => [
+        newBlock,
+        ...blocks.filter((block) => block.number !== blocks[9].number),
+      ]);
+    });
+  }
+
+  console.log(blocks);
   async function getBlocks() {
     let blockNumbers = [];
-    let number = await provider.getBlockNumber();
+    let number = await wsProvider.getBlockNumber();
     console.log("The last block number: " + number);
     for (let i = 0; i < 10; i++) {
       blockNumbers.push(number - i);
     }
     const getBlocksMapArray = blockNumbers.map((number) => {
-      return provider.getBlock(number);
+      return wsProvider.getBlock(number);
     });
     return Promise.all(getBlocksMapArray);
   }

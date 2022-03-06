@@ -5,10 +5,14 @@ const tableContainer = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
-  max-height: 300px;
+  margin-top: 50px;
+  max-height: 450px;
   z-index: 10;
   box-sizing: border-box;
+  overflow: scroll;
+  @media (max-width: 920px) {
+    width: 100% !important;
+  }
 `;
 
 const tableStyles = css`

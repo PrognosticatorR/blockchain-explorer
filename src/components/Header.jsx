@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import { Outlet } from "react-router-dom";
 import { css } from "@emotion/react";
 
 const headerStyles = css`
@@ -23,8 +23,11 @@ const headingText = css`
 
 export const Header = () => {
   return (
-    <div css={headerStyles}>
-      <div css={headingText}>Block Explorer</div>
-    </div>
+    <>
+      <div css={headerStyles}>
+        <div css={headingText}>Block Explorer</div>
+      </div>
+      <Outlet />
+    </>
   );
 };
