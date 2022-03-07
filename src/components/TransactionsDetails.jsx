@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import { getTransaction } from "../utils/helpers";
-import { txnTableContainer, txnTableStyles } from "../styles/table-styles";
+import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
+
+import { getTransaction, convertChainIdToNetworkName } from "../utils/helpers";
+import { txnTableContainer, txnTableStyles } from "../styles/table-styles";
+import { transactionsTableContainer } from "../styles/index";
 
 export const TransactionsDetails = () => {
   const [transactionData, setTrasanctionData] = useState([]);
@@ -16,9 +19,13 @@ export const TransactionsDetails = () => {
       setLoading(false);
     });
   }, [pathname]);
-  console.log(transactionData);
+
   return (
-    <div>
+    <div
+      css={css`
+        ${transactionsTableContainer}
+      `}
+    >
       <h2>
         {loading
           ? "Fetching Data"
@@ -65,8 +72,8 @@ export const TransactionsDetails = () => {
                 <td>{Number(transactionData?.value) + " Wei"}</td>
               </tr>
               <tr>
-                <td>ChainId:</td>
-                <td>{transactionData?.chainId}</td>
+                <td>Chain:</td>
+                <td>{convertChainIdToNetworkName(transactionData?.chainId)}</td>
               </tr>
             </tbody>
           </table>

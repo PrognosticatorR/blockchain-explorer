@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+
 import { tableContainer, tableStyles, rowStyles } from "../styles/table-styles";
+import { truncateStr } from "../utils/helpers";
 
 export const Table = ({ blocks }) => {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ export const Table = ({ blocks }) => {
               onClick={() => handleClick(block)}
             >
               <td>{block.number}</td>
-              <td>{block.hash.slice(0, 10) + "...." + block.hash.slice(60)}</td>
+              <td>{truncateStr(block.hash, 24)}</td>
               <td>{moment(new Date(block.timestamp * 1000)).fromNow()}</td>
               <td>{Number(block.gasUsed._hex) + " wei"}</td>
             </tr>

@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import { getWeb3Provider } from "../utils/helpers";
 import ETHLogo from "../ethereum.svg";
 import { Table } from "./Table";
-import ClipLoader from "react-spinners/ClipLoader";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);

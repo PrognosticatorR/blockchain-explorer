@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  client:
+    container_name: block-explorer-client
+    build:
+      dockerfile: Dockerfile
+      context: "."
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+      - /usr/src/app/.build
+    ports:
+      - 3000:3000
+    labels:
+      REACT_APP_WS_RPC_URL: ${REACT_APP_WS_RPC_URL}
+      REACT_APP_RPC_URL: ${REACT_APP_RPC_URL}
+    restart: unless-stopped

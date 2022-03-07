@@ -6,6 +6,9 @@ export const tableContainer = css`
   justify-content: center;
   margin-top: 50px;
   z-index: 10;
+  @media (min-width: 920px) {
+    min-width: 820px;
+  }
   box-sizing: border-box;
   overflow: scroll;
   @media (max-width: 920px) {
@@ -17,7 +20,8 @@ export const tableStyles = css`
   border: 1px solid black;
   max-width: 900px;
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(240, 245, 245);
+  width: 90%;
+  box-shadow: 0 0px 5px rgba(80, 45, 50);
   td,
   th {
     border: 1px solid #222222;

@@ -2,19 +2,7 @@
 import { Outlet } from "react-router-dom";
 import { css } from "@emotion/react";
 
-const headerStyles = css`
-  background-color: #222222;
-  min-height: 7vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  color: white;
-  z-index: 100;
-  position: sticky;
-  top: 0;
-  font-weight: normal;
-`;
+import { headerStyles } from "../styles/index";
 
 const headingText = css`
   padding-left: 50px;

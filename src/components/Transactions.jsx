@@ -4,10 +4,15 @@ import moment from "moment";
 import { useLocation, Link } from "react-router-dom";
 import { filterAccordingToTransaction } from "../utils/helpers";
 import { css } from "@emotion/react";
-import { truncateStr } from "../utils/helpers";
-import { txnTableContainer, txnTableStyles } from "../styles/table-styles";
 import ClipLoader from "react-spinners/ClipLoader";
 import BeatLoader from "react-spinners/BeatLoader";
+
+import { truncateStr } from "../utils/helpers";
+import { txnTableContainer, txnTableStyles } from "../styles/table-styles";
+import {
+  transactionsRowsStyles,
+  transactionsTableContainer,
+} from "../styles/index";
 
 export const Transactions = () => {
   const [transactions, setTrasanction] = useState([]);
@@ -34,21 +39,10 @@ export const Transactions = () => {
                 state: { transaction: txn.hash },
               }}
               css={css`
-                display: flex;
-                border-bottom: 0.1px solid grey;
-                border-width: 100%;
-                padding: 15px 5px 5px 15px;
-                margin-bottom: 0;
-                color: #1d6ea5;
-                cursor: pointer;
-                text-decoration: none;
-                padding-top: 10px;
-                &:hover {
-                  color: #1d8ea5;
-                }
+                ${transactionsRowsStyles}
               `}
             >
-              {truncateStr(txn.value.hash, 30)}
+              {truncateStr(txn.value.hash, 36)}
             </Link>
           );
         })}
@@ -56,8 +50,14 @@ export const Transactions = () => {
     );
   }
   return (
-    <div>
-      <h2>{fetchingData ? "Fetching Data" : `@Block: ${blockInfo?.number}`}</h2>
+    <div
+      css={css`
+        ${transactionsTableContainer}
+      `}
+    >
+      <h2>
+        {fetchingData ? "Fetching Data..." : `@Block: ${blockInfo?.number}`}
+      </h2>
       {fetchingData ? (
         <ClipLoader />
       ) : (
@@ -86,11 +86,11 @@ export const Transactions = () => {
               </tr>
               <tr>
                 <td>Gas Used:</td>
-                <td>{Number(blockInfo.gasUsed?._hex)}</td>
+                <td>{Number(blockInfo.gasUsed?._hex) + " Wei"}</td>
               </tr>
               <tr>
                 <td>Gas Limit:</td>
-                <td>{Number(blockInfo.gasLimit?._hex)}</td>
+                <td>{Number(blockInfo.gasLimit?._hex) + " Wei"}</td>
               </tr>
               <tr>
                 <td>Transactions:</td>
