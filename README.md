@@ -13,10 +13,10 @@ In the project directory, you can run this app by:
 
 1. using docker
 
-### `docker-compose up`
+   ### `docker-compose up`
 
 2. using npm
 
-### `yarn`
+   ### `yarn`
 
-### `yarn start`
+   ### `yarn start`
