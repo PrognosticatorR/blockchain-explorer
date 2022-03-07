@@ -2,7 +2,10 @@
 
 ### Description
 
-    This is simple blockchain explorer app which runs on rinkey-testnet by default, it fetches blocks in realtime using websocket provider (powered by infura).
+```
+   This is simple blockchain explorer app which runs on rinkey-testnet by default,
+   it fetches blocks in realtime using websocket provider (powered by infura).
+```
 
 ### How to run this app?
 
