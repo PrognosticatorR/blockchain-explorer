@@ -54,8 +54,8 @@ export const filterAccordingToTransaction = async (transactionHashes) => {
   const promisesMap = transactionHashes.map((txHash) =>
     provider.getTransaction(txHash)
   );
-  let res = await Promise.allSettled(promisesMap);
-  let filteredResult = res.filter((txn) => Number(txn.value.value._hex) > 0);
+  let res = await Promise.all(promisesMap);
+  let filteredResult = res.filter((txn) => Number(txn.value._hex) > 0);
   return filteredResult;
 };
 
@@ -83,11 +83,11 @@ export const convertChainIdToNetworkName = (chainId) => {
     case 1:
       return "ETH Mainnet";
     case 3:
-      return "Ropsten Teatnet";
+      return "Ropsten Testnet";
     case 4:
-      return "Rinkeby Teatnet";
+      return "Rinkeby Testnet";
     case 5:
-      return "Goerli Teatnet";
+      return "Goerli Testnet";
     default:
       return "incorrect chain id!";
   }

@@ -1,14 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { tableContainer, tableStyles, rowStyles } from "../styles/table-styles";
 import { truncateStr } from "../utils/helpers";
+import { setCurrentBlock } from "../store/actions/transactionAction";
 
 export const Table = ({ blocks }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleClick = (block) => {
-    navigate("/transactions", { state: block });
+    dispatch(setCurrentBlock(block));
+    navigate("/transactions");
   };
   return (
     <div key={"txn_table"} css={tableContainer}>

@@ -2,23 +2,25 @@
 import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useSelector } from "react-redux";
 
-import { getTransaction, convertChainIdToNetworkName } from "../utils/helpers";
+import { convertChainIdToNetworkName } from "../utils/helpers";
 import { txnTableContainer, txnTableStyles } from "../styles/table-styles";
 import { transactionsTableContainer } from "../styles/index";
 
 export const TransactionsDetails = () => {
-  const [transactionData, setTrasanctionData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const state = useSelector((state) => state);
+  const [transactionData, setTransactionData] = useState([]);
 
+  const { transactions } = state.transactionReducer;
   const { pathname } = new URL(window.location.href);
   useEffect(() => {
     const txnHash = pathname.split("/")[2];
-    getTransaction(txnHash).then((data) => {
-      setTrasanctionData(data);
-      setLoading(false);
-    });
-  }, [pathname]);
+    const currentTransaction = transactions.filter(
+      (txn) => txn.hash === txnHash
+    );
+    setTransactionData(currentTransaction[0]);
+  }, [pathname, transactions]);
 
   return (
     <div
@@ -26,12 +28,7 @@ export const TransactionsDetails = () => {
         ${transactionsTableContainer}
       `}
     >
-      <h2>
-        {loading
-          ? "Fetching Data"
-          : `Transaction @Block: ${transactionData?.blockNumber}`}
-      </h2>
-      {loading ? (
+      {!transactionData ? (
         <ClipLoader />
       ) : (
         <div css={txnTableContainer}>

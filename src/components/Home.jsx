@@ -11,6 +11,7 @@ export const Home = () => {
   const [blocks, setBlocks] = useState([]);
   const [fetchingBlocks, setFetchingBlocks] = useState(false);
   const wsProvider = getWeb3Provider("websoket");
+  const provider = getWeb3Provider();
 
   useEffect(() => {
     setFetchingBlocks(true);
@@ -34,13 +35,13 @@ export const Home = () => {
 
   async function getBlocks() {
     let blockNumbers = [];
-    let number = await wsProvider.getBlockNumber();
+    let number = await provider.getBlockNumber();
     console.log("The last block number: " + number);
     for (let i = 0; i < 10; i++) {
       blockNumbers.push(number - i);
     }
     const getBlocksMapArray = blockNumbers.map((number) => {
-      return wsProvider.getBlock(number);
+      return provider.getBlock(number);
     });
     return Promise.all(getBlocksMapArray);
   }
