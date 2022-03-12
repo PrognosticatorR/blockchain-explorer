@@ -1,9 +1,9 @@
 import { UPDATE_TRANSACTIONS, FETCHING_DATA, SET_CURRENT_BLOCK } from "./types";
 import { filterAccordingToTransaction } from "../../utils/helpers";
 
-export const fetchTransactions = (transactionsHashes) => async (dispatch) => {
+export const fetchTransactions = (blockData) => async (dispatch) => {
   dispatch({ type: FETCHING_DATA });
-  const result = await filterAccordingToTransaction(transactionsHashes);
+  const result = await filterAccordingToTransaction(blockData);
   return dispatch({ type: UPDATE_TRANSACTIONS, payload: result });
 };
 

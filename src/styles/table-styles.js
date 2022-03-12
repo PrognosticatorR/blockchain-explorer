@@ -6,6 +6,7 @@ export const tableContainer = css`
   justify-content: center;
   margin-top: 50px;
   z-index: 10;
+  padding: 8px;
   @media (min-width: 920px) {
     min-width: 820px;
   }
@@ -17,11 +18,11 @@ export const tableContainer = css`
 `;
 
 export const tableStyles = css`
-  border: 1px solid black;
+  border: 1px solid gray;
   max-width: 900px;
   border-collapse: collapse;
   width: 90%;
-  box-shadow: 0 0px 5px rgba(80, 45, 50);
+  box-shadow: 0px 0px 10px 3px #d3d3d3;
   td,
   th {
     border: 1px solid #222222;

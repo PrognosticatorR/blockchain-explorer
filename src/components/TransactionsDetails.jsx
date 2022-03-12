@@ -28,6 +28,7 @@ export const TransactionsDetails = () => {
         ${transactionsTableContainer}
       `}
     >
+      <h2>{`Transaction @Block: ${transactionData?.blockNumber}`}</h2>
       {!transactionData ? (
         <ClipLoader />
       ) : (

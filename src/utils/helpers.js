@@ -1,5 +1,7 @@
 import { ethers } from "ethers";
 
+const blocksMap = new Map();
+
 /**
  * get node provider
  * @param {string} type
@@ -49,13 +51,24 @@ export const getTransaction = async (hash) => {
  * @params {string} hashstring
  * @return {object[]} transactions
  */
-export const filterAccordingToTransaction = async (transactionHashes) => {
+export const filterAccordingToTransaction = async (data) => {
+  // check if we alredy computed transactions for a perticular block
+  if (blocksMap.has(data?.number)) {
+    const block = blocksMap.get(data?.number);
+    return block?.transactions;
+  }
+  //clear map when it grows beyond a size
+  if (blocksMap.size > 1000) {
+    blocksMap.clear();
+  }
   const provider = getWeb3Provider();
-  const promisesMap = transactionHashes.map((txHash) =>
+  const promisesMap = data?.transactions?.map((txHash) =>
     provider.getTransaction(txHash)
   );
   let res = await Promise.all(promisesMap);
   let filteredResult = res.filter((txn) => Number(txn.value._hex) > 0);
+  data.transactions = filteredResult;
+  blocksMap.set(data?.number, data);
   return filteredResult;
 };
 
@@ -66,6 +79,7 @@ export const filterAccordingToTransaction = async (transactionHashes) => {
  * @return {string} truncated hex string
  */
 export const truncateStr = (str, chars) => {
+  if (!str.length) return "";
   return (
     str.slice(0, Math.ceil(chars / 2)) +
     "..." +

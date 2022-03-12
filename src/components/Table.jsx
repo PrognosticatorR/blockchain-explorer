@@ -28,7 +28,7 @@ export const Table = ({ blocks }) => {
           {blocks.map((block) => (
             <tr
               css={rowStyles}
-              key={block.blockNumber}
+              key={block.number}
               onClick={() => handleClick(block)}
             >
               <td>{block.number}</td>

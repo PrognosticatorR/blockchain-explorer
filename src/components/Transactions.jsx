@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import moment from "moment";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -20,7 +20,7 @@ export const Transactions = () => {
   const state = useSelector((state) => state);
   const { transactions, isFetchingData, blockData } = state.transactionReducer;
   useEffect(() => {
-    dispatch(fetchTransactions(blockData.transactions));
+    dispatch(fetchTransactions(blockData));
   }, [dispatch, blockData]);
 
   function renderTransactionRows() {
@@ -29,6 +29,7 @@ export const Transactions = () => {
         {transactions.map((txn) => {
           return (
             <Link
+              key={txn.hash}
               to={`/transactions/${txn.hash}`}
               css={css`
                 ${transactionsRowsStyles}
